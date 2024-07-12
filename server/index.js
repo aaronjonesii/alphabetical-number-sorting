@@ -10,7 +10,7 @@ app.use(express.json());
 app.post('/api/sort', (req, res) => {
     const numbersText = req.body.numbers;
 
-    if (!numbersText.match(/^[\d,-]+$/)) {
+    if (!numbersText?.match(/^[\d,-]+$/)) {
         // return error for invalid input
         return res.status(400).json(
             'Invalid text input. Only whole numbers and commas are valid input values. Example: 1,2,3,4,5'
@@ -25,14 +25,16 @@ app.post('/api/sort', (req, res) => {
         );
     }
 
-    const numbers = numbersText.split(',').map(Number);
+    const numbers = numbersText.split(',')
+        .filter((n) => !!n).map(Number);
 
     const sortedWords = numbers.map((num) => {
         const numText = ntw.toWords(num)
             // remove commas
-            .replace(',', '')
+            .replace(/,/g, '')
             // remove hyphens
-            .replace('-', ' ');
+            .replace(/-/g, ' ');
+
         return {
             image: Math.abs(num) > 9000,
             num,
