@@ -1,3 +1,7 @@
+// Constants
+const OVER_9000_IMAGE_SRC = 'imgs/vegeta-over-9000.webp';
+const API_ENDPOINT = 'http://localhost:3000/api/sort';
+
 // DOM Elements
 const numbersForm = document.getElementById('numbersForm');
 const numbersInput = document.getElementById('numbersInput');
@@ -8,23 +12,19 @@ const inputErrorContainer = document.getElementById('input-error');
 numbersForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    clearResults();
-    showInputError(false);
+    clearResultsAndError();
 
     const inputNumbers = numbersInput.value.trim();
 
-    if (!isValid(inputNumbers)) {
-        showInputError(
-            true,
-            'Invalid text input. Only whole numbers and commas are valid input values. Example: 1,2,3,4,5'
-        );
+    if (!isValidInput(inputNumbers)) {
+        showInputError('Invalid text input. Only whole numbers and commas are valid input values. Example: 1,2,3,4,5');
 
         return;
     }
 
     try {
         const response = await fetch(
-            'http://localhost:3000/api/sort',
+            API_ENDPOINT,
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -40,52 +40,48 @@ numbersForm.addEventListener('submit', async (event) => {
 
         showResults(data.sortedWords);
     } catch (error) {
-        showInputError(true, error);
+        showInputError(`Error: ${error.message}`);
 
         console.error('Error sorting input value', error);
     }
 });
 
-function isValid(text) {
+function isValidInput(text) {
     const regex = /^[\d,-]+$/;
 
     return text.match(regex);
 }
 
 function showResults(results) {
-    clearResults();
-
     results.forEach((item) => {
-        const listItem = document.createElement('li');
-
-        if (item.image) {
-            const img = createImgElement(item);
-
-            listItem.appendChild(img);
-        } else {
-            listItem.textContent = item.text;
-        }
-
-        resultsContainer.appendChild(listItem);
+        return resultsContainer.appendChild(createListItem(item));
     });
 
     resultsContainer.classList.remove('hidden');
 }
 
-function showInputError(show, errorMessage) {
-    if (show) {
-        inputErrorContainer.textContent = errorMessage || 'Invalid text input. Only whole numbers and commas are valid input values. Example: 1,2,3,4,5';
+function showInputError(message) {
+    inputErrorContainer.textContent = message;
 
-        inputErrorContainer.classList.remove('hidden');
-    } else {
-        inputErrorContainer.classList.add('hidden');
-    }
+    inputErrorContainer.classList.remove('hidden');
 }
 
-function createImgElement(item) {
+function createListItem(item) {
+    const listItem = document.createElement('li');
+
+    if (item.image) {
+        listItem.appendChild(createImageElement(item.text));
+    } else {
+        listItem.textContent = item.text;
+    }
+
+    return listItem;
+}
+
+function createImageElement(altText) {
     const img = document.createElement('img');
 
-    img.src = 'imgs/vegeta-over-9000.webp';
+    img.src = OVER_9000_IMAGE_SRC;
 
     img.style.width = '100%';
 
@@ -95,15 +91,17 @@ function createImgElement(item) {
 
     img.style.borderRadius = '1rem';
 
-    img.alt = item.text;
+    img.alt = altText;
 
-    img.title = item.text;
+    img.title = altText;
 
     return img;
 }
 
-function clearResults() {
+function clearResultsAndError() {
     resultsContainer.innerHTML = '';
 
     resultsContainer.classList.add('hidden');
+
+    inputErrorContainer.classList.add('hidden');
 }
