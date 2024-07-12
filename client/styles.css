@@ -1,0 +1,22 @@
+body {
+    font-family: Inter, system-ui;
+}
+
+h1, h2 {
+    font-weight: normal;
+    margin: 0;
+}
+
+body, form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+#input-error {
+    color: red;
+}

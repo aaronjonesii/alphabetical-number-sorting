@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alphabetical Number Sorting</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <h1 id="page-title">Alphabetical Number Sorting</h1>
+
+  <section id="requirements">
+    <h2>Requirements:</h2>
+
+    <ul>
+      <li>Only whole numbers and commas are valid input values</li>
+      <li>The results should be displayed in a visually pleasing manner</li>
+      <li>Negative numbers are represented by prefixing the number with “Negative” when generating the output</li>
+    </ul>
+  </section>
+
+  <form id="numbersForm">
+    <label for="numbersInput">Enter comma-seperated whole numbers</label>
+
+    <input required id="numbersInput" type="text" name="numbers" placeholder="Enter comma-separated numbers" />
+
+    <button type="submit">Sort Text</button>
+
+    <div id="input-error" class="hidden"></div>
+  </form>
+
+  <div id="results" class="hidden">
+    <h2>Results:</h2>
+
+    <p>Sorted numbers: <span id="sortedNumbers"></span></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
