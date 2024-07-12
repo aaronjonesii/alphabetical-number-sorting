@@ -8,6 +8,7 @@ const inputErrorContainer = document.getElementById('input-error');
 numbersForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
+    clearResults();
     showInputError(false);
 
     const inputNumbers = numbersInput.value.trim();
@@ -52,8 +53,7 @@ function isValid(text) {
 }
 
 function showResults(results) {
-    // Clear previous results
-    resultsContainer.innerHTML = '';
+    clearResults();
 
     results.forEach((item) => {
         const listItem = document.createElement('li');
@@ -68,11 +68,14 @@ function showResults(results) {
 
         resultsContainer.appendChild(listItem);
     });
+
+    resultsContainer.classList.remove('hidden');
 }
 
 function showInputError(show, errorMessage) {
     if (show) {
         inputErrorContainer.textContent = errorMessage || 'Invalid text input. Only whole numbers and commas are valid input values. Example: 1,2,3,4,5';
+
         inputErrorContainer.classList.remove('hidden');
     } else {
         inputErrorContainer.classList.add('hidden');
@@ -97,4 +100,10 @@ function createImgElement(item) {
     img.title = item.text;
 
     return img;
+}
+
+function clearResults() {
+    resultsContainer.innerHTML = '';
+
+    resultsContainer.classList.add('hidden');
 }
