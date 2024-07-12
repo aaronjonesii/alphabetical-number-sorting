@@ -51,10 +51,6 @@ function isValid(text) {
     return text.match(regex);
 }
 
-function resetNumbersInput() {
-    numbersInput.value = '';
-}
-
 function showResults(results) {
     // Clear previous results
     resultsContainer.innerHTML = '';
@@ -63,10 +59,8 @@ function showResults(results) {
         const listItem = document.createElement('li');
 
         if (item.image) {
-            const img = document.createElement('img');
-            img.src = 'path/to/image.png';
-            img.alt = item.text;
-            img.title = item.text;
+            const img = createImgElement(item);
+
             listItem.appendChild(img);
         } else {
             listItem.textContent = item.text;
@@ -78,9 +72,29 @@ function showResults(results) {
 
 function showInputError(show, errorMessage) {
     if (show) {
-        if (errorMessage) inputErrorContainer.textContent = 'Invalid text input. Only whole numbers and commas are valid input values. Example: 1,2,3,4,5';
+        inputErrorContainer.textContent = errorMessage || 'Invalid text input. Only whole numbers and commas are valid input values. Example: 1,2,3,4,5';
         inputErrorContainer.classList.remove('hidden');
     } else {
         inputErrorContainer.classList.add('hidden');
     }
+}
+
+function createImgElement(item) {
+    const img = document.createElement('img');
+
+    img.src = 'imgs/vegeta-over-9000.webp';
+
+    img.style.width = '100%';
+
+    img.style.maxWidth = '100px';
+
+    img.style.height = 'auto';
+
+    img.style.borderRadius = '1rem';
+
+    img.alt = item.text;
+
+    img.title = item.text;
+
+    return img;
 }
