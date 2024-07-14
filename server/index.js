@@ -29,7 +29,7 @@ const convertNumberToWordObject = (num) => {
         .replace(/minus/g, 'negative');
 
     return {
-        image: Math.abs(num) > 9000,
+        image: num > 9000,
         num,
         text: toTitleCase(numText),
     };
