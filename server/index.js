@@ -24,7 +24,9 @@ const convertNumberToWordObject = (num) => {
         // remove commas
         .replace(/,/g, '')
         // remove hyphens
-        .replace(/-/g, ' ');
+        .replace(/-/g, ' ')
+        // replace minus with negative
+        .replace(/minus/g, 'negative');
 
     return {
         image: Math.abs(num) > 9000,
